@@ -5,6 +5,7 @@ Este proyecto es un ejemplo básico de cómo construir un conjunto de APIs para 
 ## Versiones
 
 - [0.1.0](https://github.com/mauriciogc/men-server-blog/tree/0.1.0) - Configurando Nodemon, Babel, Express, CORS y Variables de Entorno (.env)
+- [0.2.0](https://github.com/mauriciogc/men-server-blog/tree/0.2.0) - Creando las API's (crear, consultar mensajes, consultar por messageId, eliminar por messageId)
 
 ## Funcionalidades
 
@@ -14,6 +15,7 @@ Este proyecto es un ejemplo básico de cómo construir un conjunto de APIs para 
 - Automatización del reinicio del servidor con Nodemon.
 - Compatibilidad con las últimas características de JavaScript mediante Babel.
 - Configuración de CORS para permitir peticiones desde diferentes dominios.
+- Simulación de base de datos en memoria para desarrollo.
 
 ## Requisitos
 
@@ -70,11 +72,30 @@ El servidor se ejecutará en http://localhost:3000.
 - `.env`: Archivo donde se definen las variables de entorno (ignorado por Git).
 - `package.json`: Contiene las dependencias y los scripts del proyecto.
 
+## Creación de las APIs y Simulación de Datos
+
+Las rutas de la API están definidas en el archivo `routes/menssages.js`. A modo de simulación, utilizamos un arreglo en memoria para almacenar los mensajes durante el desarrollo. Es importante destacar que los datos se perderán cada vez que se reinicie el servidor.
+
+Ejemplo de estructura de mensaje:
+
+```json
+{
+  "id": "1",
+  "message": "Este es un mensaje de ejemplo"
+}
+```
+
 ## Uso
 
-1. Abre tu navegador o herramienta como Postman para hacer peticiones a la API.
+1. Abre tu navegador o herramienta para hacer peticiones a la API.
 2. Las rutas disponibles son:
-   - `GET /`: Devuelve un mensaje de prueba.
+
+| URL                    | Type   | Params          | Description                     |
+| ---------------------- | ------ | --------------- | ------------------------------- |
+| `/messages/`           | GET    | -               | Obtener todos los mensajes.     |
+| `/messages/:messageId` | GET    | -               | Obtener un mensaje específico.  |
+| `/messages/`           | POST   | `{message: ""}` | Agregar un nuevo mensaje.       |
+| `/messages/:messageId` | DELETE | -               | Eliminar un mensaje específico. |
 
 ## Tecnologías Utilizadas
 

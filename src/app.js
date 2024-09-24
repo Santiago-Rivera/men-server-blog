@@ -1,20 +1,31 @@
-// Importamos dotenv para cargar las variables de entorno
 require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
-const app = express();
 
-// Utilizamos la variable de entorno para el puerto
+const app = express();
 const port = process.env.PORT || 3000;
 
-//console.log(process.env.USER);
-
+//-- Middlewares Globales
 app.use(cors());
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
-app.get('/', (req, res) => {
-  res.send('¡Hola, mundo desde Express!');
+// Importar las rutas
+const messageRoutes = require('./routes/messages');
+
+// Montamos las rutas para "/messages"
+app.use('/messages', messageRoutes);
+
+// Middleware de manejo de errores centralizado
+app.use((err, req, res, next) => {
+  console.error(err.stack); // Mostrar el error en la consola
+  res.status(err.status || 500).json({
+    message: err.message || "Error interno del servidor",
+    error: process.env.NODE_ENV === "production" ? {} : err, // No exponer detalles de error en producción
+  });
 });
 
+//-- Iniciar el servidor
 app.listen(port, () => {
   console.log(`Servidor escuchando en http://localhost:${port}`);
 });
