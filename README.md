@@ -1,4 +1,4 @@
-# API CRUD con Node.js, Express, MongoDB y Variables de Entorno
+# API CRUD con Node.js, Express, MongoDB (mongodb, mongoose) y Variables de Entorno
 
 Este proyecto es un ejemplo básico de cómo construir un conjunto de APIs para gestionar mensajes con operaciones CRUD (Create, Read, Update, Delete). Utilizamos Node.js como entorno de ejecución, Express como framework para la creación de las APIs, MongoDB para la persistencia de datos, y configuramos variables de entorno mediante un archivo .env para que la aplicación pueda adaptarse a diferentes entornos sin necesidad de modificar el código.
 
@@ -9,11 +9,12 @@ Este proyecto es un ejemplo básico de cómo construir un conjunto de APIs para 
 
 - [with-mongodb](https://github.com/mauriciogc/men-server-blog/tree/with-mongodb) - Conectando la API con MongoDB para almacenar los datos de manera permanente.
 
+- [with-mongoose](https://github.com/mauriciogc/men-server-blog/tree/with-mongoose) - Conectando la API con mongoose para almacenar los datos de manera permanente.
+
 ## Funcionalidades
 
 - Crear, leer, actualizar y eliminar mensajes (CRUD).
-- Uso de MongoDB para almacenar los datos de manera persistente.
-
+- Uso de MongoDB (mongodb, mongoose) para almacenar los datos de manera persistente.
 - Configuración de variables de entorno usando el paquete dotenv.
 - Automatización del reinicio del servidor con Nodemon.
 - Compatibilidad con las últimas características de JavaScript mediante Babel.
@@ -84,7 +85,7 @@ El servidor se ejecutará en http://localhost:3000.
 - `.env`: Archivo donde se definen las variables de entorno (ignorado por Git).
 - `package.json`: Contiene las dependencias y los scripts del proyecto.
 
-## Conexión de las APIs con MongoDB
+## Conexión de las APIs con MongoDB (mongodb, mongoose)
 
 En esta versión, hemos conectado la API con MongoDB para que los datos se almacenen de manera permanente. Las rutas de la API ahora interactúan directamente con MongoDB en lugar de simular los datos en memoria.
 
@@ -113,7 +114,8 @@ Asegúrate de que MongoDB esté corriendo en tu máquina antes de ejecutar el se
 
 - Node.js: Entorno de ejecución de JavaScript.
 - Express: Framework para el desarrollo de APIs.
-  MongoDB: Base de datos NoSQL para almacenar los mensajes de manera persistente.
+- MongoDB: Base de datos NoSQL para almacenar los mensajes de manera persistente.
+- mongoose: Modelado de objetos de manera elegante, facilitando la interacción con MongoDB
 - Nodemon: Herramienta para reiniciar el servidor automáticamente en desarrollo.
 - Babel: Compilador de JavaScript moderno.
 - CORS: Permitir solicitudes entre dominios.
