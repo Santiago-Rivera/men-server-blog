@@ -10,54 +10,101 @@ router.use((req, res, next) => {
 });
 
 // Obtener todos los mensajes
-router.get('/', (req, res) => {
-  return res.json(messages);
+router.get('/', async (req, res) => {
+  try {
+    const messages = await req.context.collections.messages.find().toArray();
+    return res.json(messages);
+  } catch (er) {
+    const error = new Error(
+      'Error al obtener los mensajes de la base de datos'
+    );
+    error.status = 500;
+    return next(error);
+  }
 });
 
 // Obtener un mensaje específico por ID
-router.get('/:messageId', (req, res, next) => {
+router.get('/:messageId', async (req, res, next) => {
   const { messageId } = req.params;
-  const message = messages.find((msg) => messageId === msg.id);
+  try {
+    const myid = new req.context.ObjectId(messageId);
+    const message = await req.context.collections.messages.findOne({
+      _id: myid,
+    });
 
-  if (!message) {
-    const error = new Error('Mensaje no encontrado.');
-    error.status = 404;
+    if (!message) {
+      const error = new Error(`Mensaje con ID ${messageId} no encontrado`);
+      error.status = 404;
+      return next(error);
+    }
 
-    //Para el error al middleware general de manejo de errores
+    return res.json(message);
+  } catch (er) {
+    const error = new Error(
+      `Error al obtener el mensaje con ID ${messageId} desde la base de datos`
+    );
+    error.status = 500;
     return next(error);
   }
-
-  return res.json(message);
 });
 
 // Agregar un nuevo mensaje
-router.post('/', (req, res, next) => {
-  const { message } = req.body;
-  if (!message) {
-    const error = new Error('No se ha encontrado la propiedad message');
-    error.status = 404;
-    //Para el error al middleware general de manejo de errores
+router.post('/', async (req, res, next) => {
+  try {
+    const { message } = req.body;
+
+    if (!message) {
+      const error = new Error('La propiedad "message" es requerida');
+      error.status = 404;
+      return next(error);
+    }
+
+    // Crear el nuevo mensaje
+    const newMessage = { message };
+    // Insertar el mensaje en la colección
+    const result = await req.context.collections.messages.insertOne(newMessage);
+
+    // Validar si la inserción fue exitosa
+    if (result.insertedCount === 0) {
+      const error = new Error('Error al guardar el mensaje');
+      error.status = 500;
+      return next(error);
+    }
+
+    return res.status(201).json(newMessage);
+  } catch (er) {
+    const error = new Error('Error al agregar el mensaje a la base de datos');
+    error.status = 500;
     return next(error);
   }
-
-  const newMessage = { id: `${messages.length + 1}`, message };
-  messages.push(newMessage);
-  return res.status(201).json(newMessage);
 });
 
 // Eliminar un mensaje por ID
-router.delete('/:messageId', (req, res, next) => {
+router.delete('/:messageId', async (req, res, next) => {
   const { messageId } = req.params;
-  const index = messages.findIndex((msg) => msg.id === messageId);
-  if (index === -1) {
-    const error = new Error('Mensaje no encontrado.');
-    error.status = 404;
-    //Para el error al middleware general de manejo de errores
-    return next(error);
-  }
 
-  messages.splice(index, 1);
-  return res.send(`Mensaje con ID ${messageId} eliminado.`);
+  try {
+    const myid = new req.context.ObjectId(messageId);
+    // Buscar y eliminar el mensaje
+    const result = await req.context.collections.messages.deleteOne({
+      _id: myid,
+    });
+
+    console.log(result);
+    if (result.deletedCount === 0) {
+      const error = new Error(`Mensaje con ID ${messageId} no encontrado`);
+      error.status = 404;
+      return next(error);
+    }
+
+    return res.send(`Mensaje con ID ${messageId} eliminado.`);
+  } catch (err) {
+    return next(
+      new Error(
+        `Error al eliminar el mensaje de la base de datos con ID ${messageId}`
+      )
+    );
+  }
 });
 
 module.exports = router;
