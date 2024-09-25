@@ -85,7 +85,7 @@ El servidor se ejecutará en http://localhost:3000.
 - `.env`: Archivo donde se definen las variables de entorno (ignorado por Git).
 - `package.json`: Contiene las dependencias y los scripts del proyecto.
 
-## Conexión de las APIs con MongoDB
+## Conexión de las APIs con Mongoose
 
 En esta versión, hemos conectado la API con mongoose para que los datos se almacenen de manera permanente. Las rutas de la API ahora interactúan directamente con MongoDB en lugar de simular los datos en memoria.
 
