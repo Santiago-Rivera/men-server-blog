@@ -1,4 +1,4 @@
-# API CRUD con Node.js, Express, MongoDB y Variables de Entorno
+# API CRUD con Node.js, Express, MongoDB con Mongoose y Variables de Entorno
 
 Este proyecto es un ejemplo básico de cómo construir un conjunto de APIs para gestionar mensajes con operaciones CRUD (Create, Read, Update, Delete). Utilizamos Node.js como entorno de ejecución, Express como framework para la creación de las APIs, MongoDB para la persistencia de datos, y configuramos variables de entorno mediante un archivo .env para que la aplicación pueda adaptarse a diferentes entornos sin necesidad de modificar el código.
 
